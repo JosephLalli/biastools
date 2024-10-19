@@ -746,6 +746,11 @@ def variant_seq(
         var_stop  = var.stop  + padding
         ref_seq = f_fasta.fetch(reference=ref_name, start= var_start, end = var_stop)
         hap_0, hap_1 = var.samples[0]['GT']
+
+        # if one or both variants are missing, skip the variant
+        if (hap_0 is None) or (hap_1 is None):
+                continue
+        
         # standard making hap0 and hap1 sequence
         seq_hap0,diff_hap0,_ = switch_var_seq(var, ref_seq, var_start, hap_0)
         seq_hap1,diff_hap1,_ = switch_var_seq(var, ref_seq, var_start, hap_1)
